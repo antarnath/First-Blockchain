@@ -1,4 +1,5 @@
-from block import
+from Blockchain.backend.util.util import hash256
+
 
 class BlockHeader:
   def __init__(self, version, prevBlockHash, merkleRoot, timestamp, bits):
@@ -11,8 +12,7 @@ class BlockHeader:
     self.blockHash = ''
     
   def mine(self):
-    pass
-  
-  
-x = hash256('hello')
-print(x)
+    while(self.blockHash[:4] != '0000'):
+      self.blockHash = hash256((str(self.version) + self.prevBlockHash + self.merkleRoot + str(self.timestamp) + self.bits + str(self.nonce)).encode()).hex()
+      self.nonce += 1
+      print("Minig Count: ",self.nonce, end='\r')
