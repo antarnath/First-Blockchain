@@ -16,3 +16,4 @@ class BlockHeader:
       self.blockHash = hash256((str(self.version) + self.prevBlockHash + self.merkleRoot + str(self.timestamp) + self.bits + str(self.nonce)).encode()).hex()
       self.nonce += 1
       print("Minig Count: ",self.nonce, end='\r')
+

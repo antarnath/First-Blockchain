@@ -30,7 +30,7 @@ class account:
     checksum = hash256(newAddr)[:4]
     newAddr = newAddr + checksum
     
-    BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+    BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
     count = 0
     
     for c in newAddr:
@@ -46,6 +46,7 @@ class account:
     while num > 0:
       num, mod = divmod(num, 58)
       result = BASE58_ALPHABET[mod] + result
+      
     PublicAddress = prefix + result
     print(f'Private Key: {privateKey}')
     print(f'Public Address: {PublicAddress}')
