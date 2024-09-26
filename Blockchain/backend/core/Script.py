@@ -24,7 +24,7 @@ class Script:
           result += int_to_little_endian(length, 2)
         else:
           raise ValueError('too long an cmd')
-        
+        result += cmd
     total = len(result)
     return encode_varint(total) + result
       

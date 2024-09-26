@@ -22,7 +22,7 @@ class Blockchain:
   def fetch_last_block(self):
     blockchainDB = BlockchainDB()
     return blockchainDB.lastBlock()
-    
+     
   def GenesisBlock(self):
     BlockHeight = 0
     prevBlockHash = ZERO_HASH
@@ -33,7 +33,7 @@ class Blockchain:
     coinbaseInstance = CoinbaseTx(BlockHeight)
     coinbaseTx = coinbaseInstance.CoinbaseTransaction()
     print(coinbaseTx)
-    merkleRoot = ' '
+    merkleRoot = coinbaseTx.TxId
     bits = 'ffff001f'
     blockHeader = BlockHeader(VERSION, prevBlockHash, merkleRoot, timestamp, bits)
     blockHeader.mine()

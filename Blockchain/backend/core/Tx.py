@@ -4,7 +4,8 @@ from Blockchain.backend.util.util import (
   bytes_needed, 
   decode_base58, 
   little_endian_to_int,
-  encode_varint
+  encode_varint,
+  hash256
 )
 
 ZERO_HASH = b'\0' * 32
@@ -31,7 +32,10 @@ class CoinbaseTx:
     target_script = Script.p2pkh_script(target_h160)
     tx_outs.append(TxOut(target_amount, target_script)) 
     
-    return Tx(1, tx_ins, tx_outs, 0)
+    coinBaseTx = Tx(1, tx_ins, tx_outs, 0)
+    coinBaseTx.TxId = coinBaseTx.id()
+    
+    return coinBaseTx
 
 class Tx:
   def __init__(self, version, tx_ins, tx_outs, locktime):
@@ -39,6 +43,12 @@ class Tx:
     self.tx_ins = tx_ins
     self.tx_outs = tx_outs
     self.locktime = locktime
+    
+  def id(self):
+    return self.hash().hex()
+    
+  def hash(self):
+    return hash256(self.serialize())[::-1]
     
   def serialize(self):
     result = int_to_little_endian(self.version, 4)
@@ -94,7 +104,7 @@ class TxIn:
   def serialize(self):
     result = self.prev_tx
     result += int_to_little_endian(self.prev_index, 4)
-    result += self.script_sig 
+    result += self.script_sig.serialize() 
     result += int_to_little_endian(self.sequence, 4)
     return result
     
