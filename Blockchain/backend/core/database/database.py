@@ -39,6 +39,4 @@ class BlockchainDB(BaseDB):
     data = self.read()
     if data:
       return data[-1]
-    else:
-      return None
     
