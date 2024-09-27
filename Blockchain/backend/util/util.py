@@ -39,6 +39,7 @@ def decode_base58(s):
   return combined[1:-4]
 
 
+
 # encode int to varint
 def encode_varint(i):
   if i < 0xfd:

@@ -2,6 +2,7 @@ import sys
 sys.path.append('/run/media/antarnath/Antar/Blockchain/Build_Blockchain')
 from Blockchain.backend.core.EllepticCurve.EllepticCurve import Sha256Point
 from Blockchain.backend.util.util import hash160, hash256
+from Blockchain.backend.core.database.database import AccountDB
 import secrets
 
 class account:
@@ -11,8 +12,8 @@ class account:
     
     G = Sha256Point(Gx, Gy)
     
-    privateKey = secrets.randbits(256)
-    unCompressesPublicKey = privateKey * G
+    self.privateKey = secrets.randbits(256)
+    unCompressesPublicKey = self.privateKey * G
     xPoint = unCompressesPublicKey.x 
     yPoint = unCompressesPublicKey.y
     
@@ -22,6 +23,7 @@ class account:
       compressesKey = b'\x03' + xPoint.num.to_bytes(32, 'big')
       
     hsh160 = hash160(compressesKey)
+    print(f'Hash160: {hsh160}')
     # Prefix for Mainnet
     main_prefix = b'\x00'
     newAddr = main_prefix + hsh160
@@ -47,9 +49,12 @@ class account:
       num, mod = divmod(num, 58)
       result = BASE58_ALPHABET[mod] + result
       
-    PublicAddress = prefix + result
-    print(f'Private Key: {privateKey}')
-    print(f'Public Address: {PublicAddress}')
+    self.PublicAddress = prefix + result
+    print(f'Private Key: {self.privateKey}')
+    print(f'Public Address: {self.PublicAddress}')
     
 if __name__ == '__main__':
-  account().createKeys()
+  acct = account()
+  acct.createKeys()
+  print(acct)
+  AccountDB().write([acct.__dict__])
